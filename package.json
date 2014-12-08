@@ -11,6 +11,9 @@
     "type": "git",
     "url": "https://github.com/mafintosh/hackfile.git"
   },
+  "scripts": {
+    "test": "tape test/index.js"
+  },
   "author": "Mathias Buus (@mafintosh)",
   "license": "MIT",
   "bugs": {
