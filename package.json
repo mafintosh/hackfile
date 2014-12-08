@@ -1,7 +1,7 @@
 {
   "name": "hackfile",
   "version": "0.0.0",
-  "description": "WIP - nothing to see here",
+  "description": "Parser for the hackfile format",
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
