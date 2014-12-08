@@ -1,10 +1,12 @@
 # hackfile
 
-Parse for the hackfile format
+Parser for the hackfile format
 
 ```
 npm install hackfile
 ```
+
+[![build status](http://img.shields.io/travis/mafintosh/hackfile.svg?style=flat)](http://travis-ci.org/mafintosh/hackfile)
 
 ## Format
 
