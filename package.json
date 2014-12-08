@@ -1,6 +1,6 @@
 {
   "name": "hackfile",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Parser for the hackfile format",
   "main": "index.js",
   "dependencies": {},
