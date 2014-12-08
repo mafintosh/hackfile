@@ -1,4 +1,6 @@
 var hackfile = function(src) {
+  if (Buffer.isBuffer(src)) src = src.toString()
+  
   var lines = src.replace(/\s+$/, '').split('\n')
 
   var indent = lines.reduce(function(indent, line) {
