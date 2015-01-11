@@ -1,6 +1,12 @@
-foo
-  bar
-  baz
+foo echo a
+  echo b
 
-lol
-  lol lol lol
+bar echo c
+  echo d
+
+bat
+  echo e
+  echo f
+  echo g
+
+baz echo a b c d
