@@ -10,11 +10,20 @@ npm install hackfile
 
 ## Format
 
-The hackfile format is similar to a Makefile
+The hackfile format is similar to a Makefile.  There are two accepted formats:
 
 ```
 {name}
-(indent){arg1} {arg2}...
+(indent){arg1}
+(indent){arg2}
+...
+```
+
+```
+{name} {arg1}
+(indent){arg2}
+(indent){arg3}
+...
 ```
 
 ## Usage
@@ -22,12 +31,17 @@ The hackfile format is similar to a Makefile
 Assuming you have a hackfile that looks like this
 
 ```
-foo
-  bar
-  baz
+foo bar
 
-bar
-  bar baz
+bar echo c
+  echo d
+
+bat
+  echo e
+  echo f
+  echo g
+
+baz echo a b c d
 ```
 
 The following example
@@ -43,10 +57,10 @@ console.log(parsed)
 Prints out
 
 ```
-{
-  foo: [['bar'], ['baz']],
-  bar: [['bar', 'baz']]
-}
+{ foo: [ 'bar' ],
+  bar: [ 'echo c', 'echo d' ],
+  bat: [ 'echo e', 'echo f', 'echo g' ],
+  baz: [ 'echo a b c d' ] }
 ```
 
 ## License

@@ -18,10 +18,13 @@ var hackfile = function(src) {
     if (/^\s/.test(line) && !indented) throw new SyntaxError('Inconsistent indentation')
     if (!latest && indented) throw new SyntaxError('Unnamed indentation group not allowed')
 
-    if (indented) return result[latest].push(line.trim().split(/\s+/))
+    if (indented) return result[latest].push(line.trim())
 
-    latest = line.trim()
+    var latestLine = line.trim().split(/\s+/)
+    latest = latestLine.splice(0, 1)
+
     result[latest] = []
+    if (latestLine.length > 0) result[latest].push(latestLine.join(" "))
   })
 
   return result
