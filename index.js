@@ -20,11 +20,11 @@ var hackfile = function(src) {
 
     if (indented) return result[latest].push(line.trim())
 
-    latest_line = line.trim().split(/\s+/)
-    latest = latest_line.splice(0, 1)
+    var latestLine = line.trim().split(/\s+/)
+    latest = latestLine.splice(0, 1)
 
     result[latest] = []
-    if (latest_line.length > 0) result[latest].push(latest_line.join(" "))
+    if (latestLine.length > 0) result[latest].push(latestLine.join(" "))
   })
 
   return result
