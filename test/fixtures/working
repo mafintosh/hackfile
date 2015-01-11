@@ -1,5 +1,4 @@
-foo echo a
-  echo b
+foo bar
 
 bar echo c
   echo d

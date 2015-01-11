@@ -24,7 +24,7 @@ var hackfile = function(src) {
     latest = latest_line.splice(0, 1)
 
     result[latest] = []
-    if (latest_line.length > 1) result[latest].push(latest_line.join(" "))
+    if (latest_line.length > 0) result[latest].push(latest_line.join(" "))
   })
 
   return result

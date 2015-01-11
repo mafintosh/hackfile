@@ -31,8 +31,7 @@ The hackfile format is similar to a Makefile.  There are two accepted formats:
 Assuming you have a hackfile that looks like this
 
 ```
-foo echo a
-  echo b
+foo bar
 
 bar echo c
   echo d
@@ -58,7 +57,7 @@ console.log(parsed)
 Prints out
 
 ```
-{ foo: [ 'echo a', 'echo b' ],
+{ foo: [ 'bar' ],
   bar: [ 'echo c', 'echo d' ],
   bat: [ 'echo e', 'echo f', 'echo g' ],
   baz: [ 'echo a b c d' ] }
