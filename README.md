@@ -57,10 +57,10 @@ console.log(parsed)
 Prints out
 
 ```
-{ foo: [ 'bar' ],
-  bar: [ 'echo c', 'echo d' ],
-  bat: [ 'echo e', 'echo f', 'echo g' ],
-  baz: [ 'echo a b c d' ] }
+[ [ 'foo', [ 'bar' ] ],
+  [ 'bar', [ 'echo c', 'echo d' ] ],
+  [ 'bat', [ 'echo e', 'echo f', 'echo g' ] ],
+  [ 'baz', [ 'echo a b c d' ] ] ]
 ```
 
 ## License

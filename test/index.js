@@ -7,7 +7,7 @@ var read = function(name) {
 }
 
 tape('parses', function(t) {
-  var result = { foo: ['bar'], bar: ['echo c', 'echo d'], bat: ['echo e', 'echo f', 'echo g'], baz: ['echo a b c d'] }
+  var result = [['foo', ['bar']], ['bar', ['echo c', 'echo d']], ['bat', ['echo e', 'echo f', 'echo g']], ['baz', ['echo a b c d']]]
 
   t.same(hackfile(read('working')), result, 'parses working file')
   t.end()

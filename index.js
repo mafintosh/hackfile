@@ -8,7 +8,7 @@ var hackfile = function(src) {
   }, null)
 
   var latest = null
-  var result = {}
+  var result = []
 
   lines.forEach(function(line) {
     if (!line.trim()) return
@@ -18,13 +18,13 @@ var hackfile = function(src) {
     if (/^\s/.test(line) && !indented) throw new SyntaxError('Inconsistent indentation')
     if (!latest && indented) throw new SyntaxError('Unnamed indentation group not allowed')
 
-    if (indented) return result[latest].push(line.trim())
+    if (indented) return result[result.length - 1][1].push(line.trim())
 
     var latestLine = line.trim().split(/\s+/)
-    latest = latestLine.splice(0, 1)
+    latest = latestLine.splice(0, 1)[0]
 
-    result[latest] = []
-    if (latestLine.length > 0) result[latest].push(latestLine.join(" "))
+    result.push([latest, []])
+    if (latestLine.length > 0) result[result.length - 1][1].push(latestLine.join(" "))
   })
 
   return result
