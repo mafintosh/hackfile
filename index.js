@@ -1,6 +1,8 @@
+var debug = require('debug')('hackfile')
+
 var hackfile = function(src) {
   if (Buffer.isBuffer(src)) src = src.toString()
-  
+
   var lines = src.replace(/\s+$/, '').split('\n')
 
   var indent = lines.reduce(function(indent, line) {
@@ -8,25 +10,99 @@ var hackfile = function(src) {
   }, null)
 
   var latest = null
-  var result = {}
+  var commands = []
+  var indents = []
+  var appendTo = []
+  var indentSize = 0
 
   lines.forEach(function(line) {
     if (!line.trim()) return
-    
+
     var indented = line.indexOf(indent) === 0
 
-    if (/^\s/.test(line) && !indented) throw new SyntaxError('Inconsistent indentation')
     if (!latest && indented) throw new SyntaxError('Unnamed indentation group not allowed')
 
-    if (indented) return result[latest].push(line.trim())
+    //Nested command
+    if (indented) {
+      var currIndent = line.match(/(\s+)\S/)[1].length
+      var lastIndent = indents[indents.length - 1]
 
-    var latestLine = line.trim().split(/\s+/)
-    latest = latestLine.splice(0, 1)
+      //Set indentSize based on first indent found
+      if (lastIndent === 0) indentSize = currIndent
 
-    result[latest] = []
-    if (latestLine.length > 0) result[latest].push(latestLine.join(" "))
+      //INDENT
+      if (currIndent > lastIndent) {
+        var prev = appendTo.pop()
+        var prevLine = prev.split(/\s+/)
+        var prevName = prevLine.splice(0, 1)[0]
+        appendTo.push(prevName)
+        appendToken(appendTo, "INDENT", currIndent - lastIndent, indentSize)
+        if (prevLine.length > 0 ) appendTo.push(prevLine.join(" "))
+      }
+
+      //DEDENT
+      if (currIndent < lastIndent) appendToken(appendTo, "DEDENT", lastIndent - currIndent, indentSize)
+      if (currIndent != lastIndent) indents.push(currIndent)
+      appendTo.push(line.trim())
+
+    } else { //New command (not indented)
+    
+      //Handle last level(s) of DEDENT of previous command
+      if (indents.length > 0) appendToken(appendTo, "DEDENT", indents[indents.length - 1], indentSize)
+
+      latest = line.trim().split(/\s+/)[0]
+      appendTo = [line.trim()]
+      commands.push(appendTo)
+      indents.push(0)
+    }
   })
 
+  //Handle last level(s) of DEDENT
+  if (indents.length > 0) {
+    var numIndents = indents[indents.length - 1]
+    appendToken(appendTo, "DEDENT", numIndents, indentSize)
+  }
+
+  //Handle single line commands --> must parse into format "name {arg1}"
+  commands.forEach(function(command, idx, res) {
+    if (command.length == 1) {
+      var args = command.pop().split(/\s+/)
+      var name = args.splice(0, 1)[0]
+      res[idx] = [name, "INDENT", args.join(" "), "DEDENT"]
+    }
+  })
+
+  debug("tokens", commands)
+  return commands.map(function(cmd) {
+    return map(cmd)[0]
+  })
+}
+
+/* Push TOKEN to ARRAY NUMINDENTS/INDENTSIZE times, handles bad indentation */
+var appendToken = function(array, token, numIndents, indentSize) {
+  debug("numIndents in appendToken", numIndents)
+  debug("indentSize in appendToken", indentSize)
+  if (numIndents === indentSize && indentSize === 0) return
+  if (numIndents % indentSize != 0) throw new SyntaxError('Inconsistent indentation')
+  numTimes = numIndents/indentSize
+  for (var i = 0; i < numTimes; i += 1) array.push(token)
+}
+
+/*  Maps over COMMANDS and returns JSON according to hackfile spec */
+var map = function(commands) {
+  var result = []
+
+  while (commands.length) {
+    var token = commands.shift()
+    if (token === 'INDENT') {
+      result.push([result.pop(), map(commands)])
+      continue
+    }
+    if (token === 'DEDENT') {
+      return result
+    }
+    result.push(token)
+  }
   return result
 }
 

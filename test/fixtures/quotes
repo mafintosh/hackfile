@@ -1,0 +1,2 @@
+'pipeline' hello
+  run 'echo hi'

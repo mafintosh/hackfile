@@ -1,0 +1,18 @@
+pipeline foo
+  run echo hi
+  map curl http
+    a
+    b
+    c
+    pipe
+      echo hello
+      transform
+      cat
+  run echo
+    hi
+
+pipeline bar
+  run echo hi
+
+run echo bye
+
