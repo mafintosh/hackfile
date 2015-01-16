@@ -1,0 +1,7 @@
+pipeline foo
+  pipe
+    echo hello
+    transform
+    cat
+  run echo
+    hello

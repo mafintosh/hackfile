@@ -1,0 +1,11 @@
+foo bar
+
+bar echo c
+  echo d
+
+bat
+  pipe echo e
+    echo f
+  echo g
+
+baz echo a b c d
