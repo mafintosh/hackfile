@@ -26,6 +26,16 @@ The hackfile format is similar to a Makefile.  There are two accepted formats:
 ...
 ```
 
+hackfiles can also be nested:
+
+```
+{name} {arg}
+(indent){name} {arg}
+(indent)(indent){arg}
+(indent){arg}
+...
+```
+
 ## Usage
 
 Assuming you have a hackfile that looks like this
@@ -61,6 +71,34 @@ Prints out
   [ 'bar', [ 'echo c', 'echo d' ] ],
   [ 'bat', [ 'echo e', 'echo f', 'echo g' ] ],
   [ 'baz', [ 'echo a b c d' ] ] ]
+```
+
+## Nested Example
+
+hackfile input:
+
+```
+pipeline foo
+  pipe
+    echo hello
+    transform
+    cat
+  run echo
+    hello
+```
+
+parser output:
+```
+[['pipeline', 
+  ['foo', 
+    ['pipe', 
+      ['echo hello', 'transform', 'cat']
+    ], 
+    ['run', 
+      ['echo', 'hello']
+    ]
+  ]
+]]
 ```
 
 ## License
