@@ -84,7 +84,7 @@ var appendToken = function(array, token, numIndents, indentSize) {
   debug("indentSize in appendToken", indentSize)
   if (numIndents === indentSize && indentSize === 0) return
   if (numIndents % indentSize != 0) throw new SyntaxError('Inconsistent indentation')
-  numTimes = numIndents/indentSize
+  var numTimes = numIndents/indentSize
   for (var i = 0; i < numTimes; i += 1) array.push(token)
 }
 
