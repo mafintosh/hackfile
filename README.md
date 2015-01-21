@@ -14,15 +14,15 @@ The hackfile format is similar to a Makefile.  There are two accepted formats:
 
 ```
 {name}
-(indent){arg1}
-(indent){arg2}
+    {arg1}
+    {arg2}
 ...
 ```
 
 ```
 {name} {arg1}
-(indent){arg2}
-(indent){arg3}
+    {arg2}
+    {arg3}
 ...
 ```
 
@@ -57,10 +57,10 @@ console.log(parsed)
 Prints out
 
 ```
-[ [ 'foo', [ 'bar' ] ],
-  [ 'bar', [ 'echo c', 'echo d' ] ],
-  [ 'bat', [ 'echo e', 'echo f', 'echo g' ] ],
-  [ 'baz', [ 'echo a b c d' ] ] ]
+[ [ 'foo', [ 'bar' ] ], 
+  [ 'bar', [ [ 'echo', [ 'c' ] ], [ 'echo', [ 'd' ] ] ] ],
+  [ 'bat', [ [ 'echo', [ 'e' ] ], [ 'echo', [ 'f' ] ], [ 'echo', [ 'g' ] ] ] ],
+  [ 'baz', [ [ 'echo', [ 'a b c d' ] ] ] ] ]
 ```
 
 ## License

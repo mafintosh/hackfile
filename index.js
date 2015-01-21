@@ -34,7 +34,7 @@ var hackfile = function(src) {
       if (currIndent > lastIndent) {
         var prev = appendTo.pop()
         var prevLine = prev.split(/\s+/)
-        var prevName = prevLine.splice(0, 1)[0]
+        var prevName = prevLine.shift()
         appendTo.push(prevName)
         appendToken(appendTo, "INDENT", currIndent - lastIndent, indentSize)
         if (prevLine.length > 0 ) appendTo.push(prevLine.join(" "))
@@ -63,17 +63,37 @@ var hackfile = function(src) {
     appendToken(appendTo, "DEDENT", numIndents, indentSize)
   }
 
-  //Handle single line commands --> must parse into format "name {arg1}"
-  commands.forEach(function(command, idx, res) {
+  //Nest each line of each command
+  var newCommands = []
+  commands.forEach(function(command) {
+    var newCommand = []
+    //Handle single line commands
     if (command.length == 1) {
-      var args = command.pop().split(/\s+/)
-      var name = args.splice(0, 1)[0]
-      res[idx] = [name, "INDENT", args.join(" "), "DEDENT"]
+      var line =  command[0].split(/\s+/)
+      var name = line.shift()
+      newCommand.push(name, "INDENT")
+      if (line.length == 1) {
+        newCommand.push(line[0])
+      } else { //Nest line of single line command
+        newCommand.push(line.shift(), "INDENT", line.join(" "), "DEDENT")
+      }
+      newCommand.push("DEDENT")
+    } else {
+      command.forEach(function(line) {
+        var args = line.split(/\s+/)
+        if (args.length > 1) {
+          var name = args.shift()
+          newCommand.push(name, "INDENT", args.join(" "), "DEDENT")
+        } else {
+          newCommand.push(args[0])
+        }
+      })
     }
+    newCommands.push(newCommand)
   })
 
-  debug("tokens", commands)
-  return commands.map(function(cmd) {
+  debug("tokens", newCommands)
+  return newCommands.map(function(cmd) {
     return map(cmd)[0]
   })
 }
