@@ -88,15 +88,23 @@ pipeline foo
 ```
 
 parser output:
+
 ```
-[['pipeline', 
-  ['foo', 
-    ['pipe', 
-      ['echo hello', 'transform', 'cat']
-    ], 
-    ['run', 
-      ['echo', 'hello']
-    ]
+[[
+  "pipeline", [
+    "foo", [
+      "pipe", [[
+        "echo", [
+          "hello"
+        ]
+      ],
+      "transform",
+      "cat"
+    ]], [
+    "run", [
+      "echo",
+      "hello"
+    ]]
   ]
 ]]
 ```
