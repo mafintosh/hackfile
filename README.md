@@ -30,9 +30,9 @@ hackfiles can also be nested:
 
 ```
 {name} {arg}
-(indent){name} {arg}
-(indent)(indent){arg}
-(indent){arg}
+    {name} {arg}
+        {arg}
+        {arg}
 ...
 ```
 
